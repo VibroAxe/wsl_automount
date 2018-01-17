@@ -12,16 +12,16 @@ This is a bash script which handles actually mounting / umounting the drive with
 If the drive is removed with any file handles still open WSL will use lazy umounting. Whilst this removes the drive from the file structure you may still find processes with open handles may fail
 
 # Installation
-1) Clone the repo somewhere on your windows hdd
+1) Clone the repo somewhere on your windows hdd (eg: c:\git\)
 2) Create a task in Task Scheduler to have your script run in background. Mine looks like this:
     * Trigger: At log on
 	* Action: Start a program
 	* Program/script: powershell
-	* Add arguments: -ExecutionPolicy Unrestricted -File "c:\stuff\wsl_automount\wsl_automount.ps1"
+	* Add arguments: -ExecutionPolicy Unrestricted -File "c:\git\wsl_automount\wsl_automount.ps1"
 
-3) Configure the bash automount script by either
-	* Run `./wsl_automount.sh install` from within wsl bash (this will prompt for sudo rights)
-	* Add the following line to the end of /etc/sudoers in wsl
+3) Configure your system to allow the bash automount script sudo permission by either
+	* Runing `./wsl_automount.sh install` from within wsl bash (this will prompt for sudo rights)
+	* Adding the following line to the end of /etc/sudoers in wsl
 		`%sudo   ALL = (root) NOPASSWD: /mnt/c/<path to repo>/wsl_automount.sh`
 4) Test (either login/logout or click `Run Task` in Task Scheduler)
 5) To hide the powershell window add `-WindowStyle Hidden` to the arguments
