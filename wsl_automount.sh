@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [ $UID -ne 0 ]; then
-	echo "This command must be run as root"
-	echo "Attempting to elevate $0"
-	sudo $0 $@
-	exit
-
-fi
 
 if [ $# -eq 2 ]; then
+	if [ $UID -ne 0 ]; then
+		echo "This command must be run as root"
+		echo "Attempting to elevate $0"
+		sudo $0 $@
+		exit
+	
+	fi
 	drive=`echo "${2:0:1}" | tr '[:upper:]' '[:lower:]'`
 	if [[ "$1" == "mount" ]]; then
 		if [ ! -d /mnt/$drive ]; then
@@ -28,11 +28,19 @@ if [ $# -eq 2 ]; then
 	fi
 
 else
-	echo "usage: wsl_automount.sh comand path"
-	echo ""
-	echo "Commands"
-	echo "-----------------------------------"
-	echo "mount: mount the path"
-	echo "unmount: unmount the path"
+	if [[ "$1" == "install" ]]; then 
+		file=`readlink -f $0 | sed 's/ /\\ /g'`
+		user=`whoami`
+		echo "Attempting to install wsl_automount.sh"
+		sudo sh -c "echo '$user	ALL = (root) NOPASSWD:${file}'	> /etc/sudoers.d/wsl_automount"
+	else
+		echo "usage: wsl_automount.sh comand path"
+		echo ""
+			echo "Commands"
+		echo "-----------------------------------"
+		echo "mount: mount the path"
+		echo "unmount: unmount the path"
+	fi
 fi
+
 

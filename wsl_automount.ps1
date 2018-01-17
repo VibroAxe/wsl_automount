@@ -16,6 +16,8 @@ do{
 	write-host (get-date -format s) " WSL Running = " $wslprocesses.Count
 
 	if ($wslprocesses.Count -gt 0) {
+		$scriptpath = Split-Path $script:MyInvocation.MyCommand.Path
+		cd $scriptpath
 		if ($eventType -eq 2)
 		{
 			$driveLetter = $newEvent.SourceEventArgs.NewEvent.DriveName
