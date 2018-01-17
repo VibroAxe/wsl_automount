@@ -22,6 +22,7 @@ If the drive is removed with any file handles still open WSL will use lazy umoun
 3) Configure your system to allow the bash automount script sudo permission by either
 	* Runing `./wsl_automount.sh install` from within wsl bash (this will prompt for sudo rights)
 	* Adding the following line to the end of /etc/sudoers in wsl
+		
 		`%sudo   ALL = (root) NOPASSWD: /mnt/c/<path to repo>/wsl_automount.sh`
 4) Test (either login/logout or click `Run Task` in Task Scheduler)
 5) To hide the powershell window add `-WindowStyle Hidden` to the arguments
