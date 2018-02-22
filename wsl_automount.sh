@@ -34,12 +34,21 @@ else
 		echo "Attempting to install wsl_automount.sh"
 		sudo sh -c "echo '$user	ALL = (root) NOPASSWD:${file}'	> /etc/sudoers.d/wsl_automount"
 	else
-		echo "usage: wsl_automount.sh comand path"
-		echo ""
+		if [[ $# -eq 1 ]]; then
+			drive=`echo "${1:0:1}" | tr '[:upper:]' '[:lower:]'`
+			if [ -d /mnt/$drive ]; then
+				$0 unmount $1
+			else
+				$0 mount $1
+			fi
+		else
+			echo "usage: wsl_automount.sh comand path"
+			echo ""
 			echo "Commands"
-		echo "-----------------------------------"
-		echo "mount: mount the path"
-		echo "unmount: unmount the path"
+			echo "-----------------------------------"
+			echo "mount: mount the path"
+			echo "unmount: unmount the path"
+		fi
 	fi
 fi
 
