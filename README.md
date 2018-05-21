@@ -15,15 +15,17 @@ If the drive is removed with any file handles still open WSL will use lazy umoun
 1) Clone the repo somewhere on your windows hdd (eg: c:\git\)
 2) Create a task in Task Scheduler to have your script run in background. Mine looks like this:
     * Trigger: At log on
-	* Action: Start a program
-	* Program/script: powershell
-	* Add arguments: -ExecutionPolicy Unrestricted -File "c:\git\wsl_automount\wsl_automount.ps1"
+        * Action: Start a program
+        * Program/script: powershell
+        * Add arguments: -ExecutionPolicy Unrestricted -File "c:\git\wsl_automount\wsl_automount.ps1"
+    * Conditions:
+        * Power: Uncheck both "Start the tast only if the computer is on AC power" and "Stop if the computer switches to battery power"
 
 3) Configure your system to allow the bash automount script sudo permission by either
-	* Runing `./wsl_automount.sh install` from within wsl bash (this will prompt for sudo rights)
-	* Adding the following line to the end of /etc/sudoers in wsl
-		
-		`%sudo   ALL = (root) NOPASSWD: /mnt/c/<path to repo>/wsl_automount.sh`
+    * Runing `./wsl_automount.sh install` from within wsl bash (this will prompt for sudo rights)
+    * Adding the following line to the end of /etc/sudoers in wsl
+        
+        `%sudo   ALL = (root) NOPASSWD: /mnt/c/<path to repo>/wsl_automount.sh`
 4) Test (either login/logout or click `Run Task` in Task Scheduler)
 5) To hide the powershell window add `-WindowStyle Hidden` to the arguments
 
